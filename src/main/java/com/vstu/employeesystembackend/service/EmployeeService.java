@@ -3,7 +3,6 @@ package com.vstu.employeesystembackend.service;
 import com.vstu.employeesystembackend.dto.Employee;
 import com.vstu.employeesystembackend.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
