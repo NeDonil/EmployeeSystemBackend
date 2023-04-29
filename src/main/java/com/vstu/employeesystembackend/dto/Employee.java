@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
-import java.util.List;
 
 @Data
 @Entity
@@ -15,14 +15,20 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long employeeId;
 
-
+    @NotNull
     private String firstName;
+
+    @NotNull
     private String lastName;
+
     private String login;
     private String password;
+
+    @NotNull
     private Date hireDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @ManyToOne()
     @JoinColumn(name = "role_id")
     private Role role;
 

@@ -1,6 +1,7 @@
 package com.vstu.employeesystembackend.service;
 
 import com.vstu.employeesystembackend.dto.Employee;
+import com.vstu.employeesystembackend.errors.EmployeeNotFoundException;
 import com.vstu.employeesystembackend.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,17 +29,29 @@ public class EmployeeService {
         return employees;
     }
 
-    public Employee update(Long id, Employee employee){
+    public Employee getOne(Long id) throws EmployeeNotFoundException{
+        var employeeCandidate = employeeRepository.findById(id);
+        if(employeeCandidate.isPresent()){
+            return employeeCandidate.get();
+        } else {
+            throw new EmployeeNotFoundException(String.format("Employee(%d) not found", id));
+        }
+    }
+
+    public Employee update(Long id, Employee employee) throws EmployeeNotFoundException{
         if(employeeRepository.existsById(id)) {
             employee.setEmployeeId(id);
             return employeeRepository.save(employee);
-        };
-
-        //TODO throw exception
-        return new Employee();
+        } else {
+            throw new EmployeeNotFoundException(String.format("Employee(%d) not found", id));
+        }
     }
 
-    public void delete(Long id){
-        employeeRepository.deleteById(id);
+    public void delete(Long id) throws EmployeeNotFoundException{
+        if(employeeRepository.existsById(id)) {
+            employeeRepository.deleteById(id);
+        } else {
+            throw new EmployeeNotFoundException(String.format("Employee(%d) not found", id));
+        }
     }
 }

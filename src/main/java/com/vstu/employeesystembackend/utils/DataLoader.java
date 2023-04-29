@@ -39,10 +39,30 @@ public class DataLoader implements ApplicationRunner {
         roleRepository.save(new Role("Manager"));
         roleRepository.save(new Role("Employee"));
 
-        employeeRepository.save(new Employee("Danil", "Svinoukhov"));
-        employeeRepository.save(new Employee("Ilya", "Ignatenko"));
-        employeeRepository.save(new Employee("Andrew", "Abramov"));
-        employeeRepository.save(new Employee("Danil", "Kabirov"));
+        Employee e1 = new Employee();
+        e1.setFirstName("Danil");
+        e1.setLastName("Svinoukhov");
+        e1.setRole(roleRepository.findById(1L).get());
+
+        Employee e2 = new Employee();
+        e2.setFirstName("Ilya");
+        e2.setLastName("Ignatenko");
+        e2.setRole(roleRepository.findById(1L).get());
+
+        Employee e3 = new Employee();
+        e3.setFirstName("Andrew");
+        e3.setLastName("Abramov");
+        e3.setRole(roleRepository.findById(2L).get());
+
+        Employee e4 = new Employee();
+        e4.setFirstName("Danil");
+        e4.setLastName("Kabirov");
+        e4.setRole(roleRepository.findById(2L).get());
+
+        employeeRepository.save(e1);
+        employeeRepository.save(e2);
+        employeeRepository.save(e3);
+        employeeRepository.save(e4);
 
         taskRepository.save( new Task("Replace todos",
                 employeeRepository.findById(1L).get()) );
