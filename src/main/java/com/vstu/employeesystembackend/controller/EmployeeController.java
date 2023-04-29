@@ -1,10 +1,13 @@
 package com.vstu.employeesystembackend.controller;
 
 import com.vstu.employeesystembackend.dto.Employee;
-import com.vstu.employeesystembackend.errors.EmployeeNotFoundException;
+import com.vstu.employeesystembackend.exceptions.EmployeeCannotCreateException;
+import com.vstu.employeesystembackend.exceptions.EmployeeNotFoundException;
 import com.vstu.employeesystembackend.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RequestMapping("/employees")
 @RestController
@@ -32,8 +35,14 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity add(@RequestBody Employee employee){
-        return ResponseEntity.ok(employeeService.add(employee));
+    public ResponseEntity add(@Valid @RequestBody Employee employee){
+        try{
+            Employee newEmployee = employeeService.add(employee);
+            return ResponseEntity.ok().body(newEmployee);
+        } catch(EmployeeCannotCreateException ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+
     }
 
     @PutMapping("/{id}")

@@ -1,9 +1,10 @@
 package com.vstu.employeesystembackend.service;
 
 import com.vstu.employeesystembackend.dto.Employee;
-import com.vstu.employeesystembackend.errors.EmployeeNotFoundException;
+import com.vstu.employeesystembackend.exceptions.EmployeeCannotCreateException;
+import com.vstu.employeesystembackend.exceptions.EmployeeNotFoundException;
 import com.vstu.employeesystembackend.repository.EmployeeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.vstu.employeesystembackend.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,12 +13,28 @@ import java.util.List;
 @Service
 public class EmployeeService {
     final private EmployeeRepository employeeRepository;
-    @Autowired
-    public EmployeeService(EmployeeRepository repository){
-        this.employeeRepository = repository;
+    final private RoleRepository roleRepository;
+
+    public EmployeeService(EmployeeRepository employeeRepository, RoleRepository roleRepository){
+        this.employeeRepository = employeeRepository;
+        this.roleRepository = roleRepository;
     }
 
-    public Employee add(Employee employee){
+    public Employee add(Employee employee) throws EmployeeCannotCreateException{
+
+        if(employee.getLogin() == null || employee.getFirstName() == null || employee.getLastName() == null ){
+            throw new EmployeeCannotCreateException("Employee must have firstname, lastname, login");
+        }
+
+        if(employee.getLogin() == "" || employee.getFirstName() == "" || employee.getLastName() == "" ){
+            throw new EmployeeCannotCreateException("Employee credentials cannot be empty");
+        }
+
+        employee.setHireDate(java.time.LocalDate.now());
+        if(employee.getRole() == null){
+            employee.setRole(roleRepository.findByName("Employee"));
+        }
+
         return employeeRepository.save(employee);
     }
 

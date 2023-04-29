@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -25,7 +26,7 @@ public class Employee {
     private String password;
 
     @NotNull
-    private Date hireDate;
+    private LocalDate hireDate;
 
     @NotNull
     @ManyToOne()
