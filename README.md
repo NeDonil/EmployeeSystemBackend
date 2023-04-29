@@ -11,8 +11,8 @@ cd EmployeeSystemBackend
 
 ### Step 2 - Build project
 
-#### Maven
 ‼️Make sure ```src/main/resources/application.properties``` contains correct credentials(database name, user, pswd)
+#### Maven
 ```bat
 ./mvnw spring-boot:run
 ```
