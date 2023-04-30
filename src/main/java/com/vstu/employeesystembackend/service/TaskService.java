@@ -1,6 +1,9 @@
 package com.vstu.employeesystembackend.service;
 
 import com.vstu.employeesystembackend.dto.Task;
+import com.vstu.employeesystembackend.exceptions.EmployeeNotFoundException;
+import com.vstu.employeesystembackend.exceptions.TaskCannotCreateException;
+import com.vstu.employeesystembackend.exceptions.TaskNotFoundException;
 import com.vstu.employeesystembackend.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +19,16 @@ public class TaskService {
         this.taskRepository = repository;
     }
 
-    public Task add(Task role){
-        return taskRepository.save(role);
+    public Task add(Task task) throws TaskCannotCreateException{
+        if(task.getName() == null || task.getText() == null || task.getEmployee() == null){
+            throw new TaskCannotCreateException("Task must have name, text, employee");
+        }
+
+        if(task.getName() == "" || task.getText() == ""){
+            throw new TaskCannotCreateException("Invalid task format");
+        }
+
+        return taskRepository.save(task);
     }
 
     public List<Task> getAll(){
@@ -28,17 +39,23 @@ public class TaskService {
         return tasks;
     }
 
-    public Task update(Long id, Task task){
+    public Task update(Long id, Task task) throws TaskNotFoundException{
+
         if(taskRepository.existsById(id)) {
             task.setTaskId(id);
             return taskRepository.save(task);
-        };
+        } else {
+            throw new TaskNotFoundException(String.format("Task(%d) not found", id));
+        }
 
-        //TODO throw exception
-        return new Task();
     }
 
-    public void delete(Long id){
-        taskRepository.deleteById(id);
+    public void delete(Long id) throws TaskNotFoundException{
+
+        if(taskRepository.existsById(id)) {
+            taskRepository.deleteById(id);
+        } else {
+            throw new TaskNotFoundException(String.format("Task(%d) not found", id));
+        }
     }
 }
