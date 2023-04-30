@@ -1,5 +1,6 @@
 package com.vstu.employeesystembackend.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,9 @@ public class Employee {
     @NotNull
     private String lastName;
 
+    @JsonIgnore
     private String login;
+    @JsonIgnore
     private String password;
 
     @NotNull

@@ -19,7 +19,7 @@ public class Task {
     private LocalDateTime startline;
     private LocalDateTime deadline;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "employeeId", referencedColumnName = "employeeId")
     private Employee employee;
 
