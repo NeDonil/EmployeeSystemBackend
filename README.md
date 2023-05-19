@@ -19,7 +19,7 @@ cd EmployeeSystemBackend
 
 #### Docker
 ```bat
-./mvnw package dockerfile:build
+./mvnw package dockerfile:build -DskipTests
 docker-compose up
 ```
 ## API
