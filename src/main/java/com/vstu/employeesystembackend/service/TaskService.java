@@ -20,11 +20,11 @@ public class TaskService {
     }
 
     public Task add(Task task) throws TaskCannotCreateException{
-        if(task.getName() == null || task.getText() == null || task.getEmployee() == null){
-            throw new TaskCannotCreateException("Task must have name, text, employee");
+        if(task.getName() == null || task.getDescription() == null || task.getEmployee() == null){
+            throw new TaskCannotCreateException("Task must have name, description, employee");
         }
 
-        if(task.getName() == "" || task.getText() == ""){
+        if(task.getName() == "" || task.getDescription() == ""){
             throw new TaskCannotCreateException("Invalid task format");
         }
 

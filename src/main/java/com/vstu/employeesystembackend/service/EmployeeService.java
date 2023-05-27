@@ -22,18 +22,16 @@ public class EmployeeService {
 
     public Employee add(Employee employee) throws EmployeeCannotCreateException{
 
-        if(employee.getLogin() == null || employee.getFirstName() == null || employee.getLastName() == null ){
-            throw new EmployeeCannotCreateException("Employee must have firstname, lastname, login");
+        if(employee.getUsername() == null || employee.getFirstname() == null || employee.getLastname() == null ){
+            throw new EmployeeCannotCreateException("Employee must have firstname, lastname, username");
         }
 
-        if(employee.getLogin() == "" || employee.getFirstName() == "" || employee.getLastName() == "" ){
+        if(employee.getUsername() == "" || employee.getFirstname() == "" || employee.getLastname() == "" ){
             throw new EmployeeCannotCreateException("Employee credentials cannot be empty");
         }
 
         employee.setHireDate(java.time.LocalDate.now());
-        if(employee.getRole() == null){
-            employee.setRole(roleRepository.findByName("Employee"));
-        }
+
 
         return employeeRepository.save(employee);
     }

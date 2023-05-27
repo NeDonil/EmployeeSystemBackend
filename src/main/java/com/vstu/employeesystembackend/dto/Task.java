@@ -12,15 +12,19 @@ import java.time.LocalDateTime;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name="task_id")
     private Long taskId;
 
     private String name;
-    private String text;
+    private String description;
     private LocalDateTime startline;
     private LocalDateTime deadline;
 
+    @Column(name="complete_stage")
+    private String completeStage;
+
     @ManyToOne()
-    @JoinColumn(name = "employeeId", referencedColumnName = "employeeId")
+    @JoinColumn(name = "employee_id", referencedColumnName = "employee_id")
     private Employee employee;
 
     public Task(String name, Employee employee){
