@@ -1,5 +1,7 @@
 package com.vstu.employeesystembackend.controller;
 
+import com.vstu.employeesystembackend.dto.EmployeeDTO;
+import com.vstu.employeesystembackend.dto.TaskDTO;
 import com.vstu.employeesystembackend.entity.Task;
 import com.vstu.employeesystembackend.exceptions.TaskCannotCreateException;
 import com.vstu.employeesystembackend.exceptions.TaskNotFoundException;
@@ -19,7 +21,7 @@ public class TaskController {
 
     @GetMapping
     public ResponseEntity getAll(){
-        return ResponseEntity.ok().body(taskService.getAll());
+        return ResponseEntity.ok().body(taskService.getAll().stream().map(TaskDTO::fromEntity));
     }
 
     @PostMapping
