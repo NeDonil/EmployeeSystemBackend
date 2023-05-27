@@ -35,6 +35,10 @@ public class Employee {
     @Column(name="fire_date")
     private LocalDate fireDate;
 
+    @OneToOne
+    @JoinColumn(name = "document_id", referencedColumnName = "document_id")
+    private Document document;
+
     @ManyToMany
     @JoinTable(name="employees_roles",
     joinColumns = @JoinColumn(name = "employee_id"),
