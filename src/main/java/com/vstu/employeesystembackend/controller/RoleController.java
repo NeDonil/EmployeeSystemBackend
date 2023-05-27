@@ -1,5 +1,7 @@
 package com.vstu.employeesystembackend.controller;
 
+import com.vstu.employeesystembackend.dto.EmployeeDTO;
+import com.vstu.employeesystembackend.dto.RoleDTO;
 import com.vstu.employeesystembackend.entity.Role;
 import com.vstu.employeesystembackend.service.RoleService;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +19,7 @@ public class RoleController {
 
     @GetMapping
     public ResponseEntity getAll(){
-        return ResponseEntity.ok().body(roleService.getAll());
+        return ResponseEntity.ok().body(roleService.getAll().stream().map(RoleDTO::fromEntity));
     }
 
     @PostMapping
