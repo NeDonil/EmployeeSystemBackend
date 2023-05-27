@@ -1,4 +1,5 @@
-package com.vstu.employeesystembackend.dto;
+package com.vstu.employeesystembackend.entity;
+
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -7,15 +8,15 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @NoArgsConstructor
-public class Payment {
+public class Authority {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Id
-    @Column(name = "payment_id")
-
-    private Long paymentId;
+    @Column(name="authority_id")
+    private Long authorityId;
 
     private String name;
 
-    @Column(name = "paid_amount")
-    private double paidAmount;
+    public Authority(String name){
+        this.name = name;
+    }
 }

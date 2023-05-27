@@ -1,4 +1,4 @@
-package com.vstu.employeesystembackend.dto;
+package com.vstu.employeesystembackend.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Data
 @Entity
@@ -19,7 +18,7 @@ public class Role {
 
     private String name;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="roles_authorities",
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name="authority_id")

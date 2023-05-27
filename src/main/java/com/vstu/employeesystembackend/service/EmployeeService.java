@@ -1,6 +1,6 @@
 package com.vstu.employeesystembackend.service;
 
-import com.vstu.employeesystembackend.dto.Employee;
+import com.vstu.employeesystembackend.entity.Employee;
 import com.vstu.employeesystembackend.exceptions.EmployeeCannotCreateException;
 import com.vstu.employeesystembackend.exceptions.EmployeeNotFoundException;
 import com.vstu.employeesystembackend.repository.EmployeeRepository;
@@ -22,16 +22,25 @@ public class EmployeeService {
 
     public Employee add(Employee employee) throws EmployeeCannotCreateException{
 
-        if(employee.getUsername() == null || employee.getFirstname() == null || employee.getLastname() == null ){
-            throw new EmployeeCannotCreateException("Employee must have firstname, lastname, username");
+        if(employee.getUsername() == null ||
+                employee.getFirstname() == null ||
+                employee.getLastname() == null ||
+                employee.getPassword() == null ||
+                employee.getDocument() == null
+        ){
+            throw new EmployeeCannotCreateException("Employee must have username, firstname, lastname, pswd, fire date, document");
         }
 
-        if(employee.getUsername() == "" || employee.getFirstname() == "" || employee.getLastname() == "" ){
+        if(employee.getUsername() == "" ||
+                employee.getFirstname() == "" ||
+                employee.getLastname() == "" ||
+                employee.getPassword() == ""){
             throw new EmployeeCannotCreateException("Employee credentials cannot be empty");
         }
 
-        employee.setHireDate(java.time.LocalDate.now());
-
+        if(employee.getFireDate() == null) {
+            employee.setHireDate(java.time.LocalDate.now());
+        }
 
         return employeeRepository.save(employee);
     }

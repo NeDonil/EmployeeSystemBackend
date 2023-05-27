@@ -1,6 +1,6 @@
 package com.vstu.employeesystembackend.controller;
 
-import com.vstu.employeesystembackend.dto.Role;
+import com.vstu.employeesystembackend.entity.Role;
 import com.vstu.employeesystembackend.service.RoleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

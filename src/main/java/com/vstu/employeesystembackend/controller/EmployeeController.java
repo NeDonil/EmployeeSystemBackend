@@ -1,6 +1,7 @@
 package com.vstu.employeesystembackend.controller;
 
-import com.vstu.employeesystembackend.dto.Employee;
+import com.vstu.employeesystembackend.dto.EmployeeDTO;
+import com.vstu.employeesystembackend.entity.Employee;
 import com.vstu.employeesystembackend.exceptions.EmployeeCannotCreateException;
 import com.vstu.employeesystembackend.exceptions.EmployeeNotFoundException;
 import com.vstu.employeesystembackend.service.EmployeeService;
@@ -21,14 +22,15 @@ public class EmployeeController {
 
     @GetMapping
     public ResponseEntity getAll(){
-        return ResponseEntity.ok().body(employeeService.getAll());
+
+        return ResponseEntity.ok().body(employeeService.getAll().stream().map(EmployeeDTO::fromEntity));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity getOne(@PathVariable Long id){
         try{
             Employee employee = employeeService.getOne(id);
-            return ResponseEntity.ok().body(employee);
+            return ResponseEntity.ok().body(EmployeeDTO.fromEntity(employee));
         } catch(EmployeeNotFoundException ex){
             return ResponseEntity.badRequest().body(ex.getMessage());
         }

@@ -1,4 +1,4 @@
-package com.vstu.employeesystembackend.dto;
+package com.vstu.employeesystembackend.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

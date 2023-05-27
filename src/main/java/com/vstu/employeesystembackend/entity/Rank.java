@@ -1,4 +1,4 @@
-package com.vstu.employeesystembackend.dto;
+package com.vstu.employeesystembackend.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -15,7 +15,7 @@ public class Rank {
 
     private String name;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="department_id", referencedColumnName = "department_id")
-    private Department departmentId;
+    private Department department;
 }

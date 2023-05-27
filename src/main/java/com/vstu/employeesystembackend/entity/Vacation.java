@@ -1,4 +1,4 @@
-package com.vstu.employeesystembackend.dto;
+package com.vstu.employeesystembackend.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -21,7 +21,7 @@ public class Vacation {
     @Column(name="end_date")
     LocalDate endDate;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="employee_id", referencedColumnName = "employee_id")
-    Employee employeeId;
+    Employee employee;
 }

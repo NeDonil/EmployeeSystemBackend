@@ -1,4 +1,4 @@
-package com.vstu.employeesystembackend.dto;
+package com.vstu.employeesystembackend.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -23,7 +23,7 @@ public class Task {
     @Column(name="complete_stage")
     private String completeStage;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id", referencedColumnName = "employee_id")
     private Employee employee;
 

@@ -1,9 +1,9 @@
 package com.vstu.employeesystembackend.utils;
 
-import com.vstu.employeesystembackend.dto.Authority;
-import com.vstu.employeesystembackend.dto.Employee;
-import com.vstu.employeesystembackend.dto.Role;
-import com.vstu.employeesystembackend.dto.Task;
+import com.vstu.employeesystembackend.entity.Authority;
+import com.vstu.employeesystembackend.entity.Employee;
+import com.vstu.employeesystembackend.entity.Role;
+import com.vstu.employeesystembackend.entity.Task;
 import com.vstu.employeesystembackend.repository.AuthorityRepository;
 import com.vstu.employeesystembackend.repository.EmployeeRepository;
 import com.vstu.employeesystembackend.repository.RoleRepository;

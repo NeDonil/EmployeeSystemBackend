@@ -1,6 +1,6 @@
 package com.vstu.employeesystembackend.controller;
 
-import com.vstu.employeesystembackend.dto.Task;
+import com.vstu.employeesystembackend.entity.Task;
 import com.vstu.employeesystembackend.exceptions.TaskCannotCreateException;
 import com.vstu.employeesystembackend.exceptions.TaskNotFoundException;
 import com.vstu.employeesystembackend.service.TaskService;

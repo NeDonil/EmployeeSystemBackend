@@ -1,6 +1,6 @@
 package com.vstu.employeesystembackend.service;
 
-import com.vstu.employeesystembackend.dto.Role;
+import com.vstu.employeesystembackend.entity.Role;
 import com.vstu.employeesystembackend.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
