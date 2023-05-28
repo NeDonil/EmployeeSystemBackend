@@ -2,6 +2,7 @@ package com.vstu.employeesystembackend.service;
 
 import com.vstu.employeesystembackend.dto.TaskDTO;
 import com.vstu.employeesystembackend.entity.Task;
+import com.vstu.employeesystembackend.exceptions.EmployeeNotFoundException;
 import com.vstu.employeesystembackend.exceptions.TaskCannotCreateException;
 import com.vstu.employeesystembackend.exceptions.TaskNotFoundException;
 import com.vstu.employeesystembackend.repository.EmployeeRepository;
@@ -58,6 +59,22 @@ public class TaskService {
         }
 
         return taskRepository.save(task);
+    }
+
+    public void addTaskToEmployee(Long taskId, Long employeeId) throws EmployeeNotFoundException, TaskNotFoundException {
+
+        var taskCandid = taskRepository.findById(taskId);
+        if(!taskCandid.isPresent()){
+            throw new TaskNotFoundException("Task not found");
+        }
+
+        var employeeCandid = employeeRepository.findById(employeeId);
+        if(!employeeCandid.isPresent()){
+            throw new EmployeeNotFoundException("Employee not found");
+        }
+
+        var task = taskCandid.get();
+        employeeCandid.get().getTasks().add(task);
     }
 
     public List<Task> getAll(){

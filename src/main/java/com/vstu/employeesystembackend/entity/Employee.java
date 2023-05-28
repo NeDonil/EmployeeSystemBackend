@@ -40,8 +40,12 @@ public class Employee {
     joinColumns = @JoinColumn(name = "employee_id"),
             inverseJoinColumns = @JoinColumn(name="role_id")
     )
-
     private List<Role> roles = new ArrayList();
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id", referencedColumnName = "employee_id")
+
+    private List<Task> tasks = new ArrayList();
 
     public Employee(String firstName, String lastName){
         this.firstname = firstName;
