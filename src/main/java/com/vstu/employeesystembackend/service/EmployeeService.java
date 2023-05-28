@@ -1,7 +1,9 @@
 package com.vstu.employeesystembackend.service;
 
+import com.vstu.employeesystembackend.dto.EmployeeDTO;
 import com.vstu.employeesystembackend.entity.Employee;
 import com.vstu.employeesystembackend.exceptions.EmployeeCannotCreateException;
+import com.vstu.employeesystembackend.exceptions.EmployeeInvalidFormatException;
 import com.vstu.employeesystembackend.exceptions.EmployeeNotFoundException;
 import com.vstu.employeesystembackend.repository.EmployeeRepository;
 import com.vstu.employeesystembackend.repository.RoleRepository;
@@ -22,6 +24,7 @@ public class EmployeeService {
 
     public Employee add(Employee employee) throws EmployeeCannotCreateException{
 
+        //TODO validation
         if(employee.getUsername() == null ||
                 employee.getFirstname() == null ||
                 employee.getLastname() == null ||
@@ -62,9 +65,20 @@ public class EmployeeService {
         }
     }
 
-    public Employee update(Long id, Employee employee) throws EmployeeNotFoundException{
-        if(employeeRepository.existsById(id)) {
-            employee.setEmployeeId(id);
+    public Employee update(Long id, EmployeeDTO employeeDTO) throws EmployeeNotFoundException, EmployeeInvalidFormatException{
+
+        if(employeeDTO.getFirstname() == null || employeeDTO.getLastname() == null || employeeDTO.getFireDate() == null){
+            throw new EmployeeInvalidFormatException("Employee must have firstname, lastname, firedate");
+        }
+
+        var employeeCandid = employeeRepository.findById(id);
+        if(employeeCandid.isPresent()) {
+            var employee = employeeCandid.get();
+
+            employee.setFirstname(employeeDTO.getFirstname());
+            employee.setLastname(employeeDTO.getLastname());
+            employee.setFireDate(employeeDTO.getFireDate());
+
             return employeeRepository.save(employee);
         } else {
             throw new EmployeeNotFoundException(String.format("Employee(%d) not found", id));

@@ -3,6 +3,7 @@ package com.vstu.employeesystembackend.controller;
 import com.vstu.employeesystembackend.dto.EmployeeDTO;
 import com.vstu.employeesystembackend.entity.Employee;
 import com.vstu.employeesystembackend.exceptions.EmployeeCannotCreateException;
+import com.vstu.employeesystembackend.exceptions.EmployeeInvalidFormatException;
 import com.vstu.employeesystembackend.exceptions.EmployeeNotFoundException;
 import com.vstu.employeesystembackend.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
@@ -48,10 +49,12 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity update(@PathVariable Long id, @RequestBody Employee employee){
+    public ResponseEntity update(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO){
         try{
-            return ResponseEntity.ok().body(EmployeeDTO.fromEntity(employeeService.update(id, employee)));
-        } catch(EmployeeNotFoundException ex){
+            return ResponseEntity.ok().body(EmployeeDTO.fromEntity(employeeService.update(id, employeeDTO)));
+        } catch(EmployeeNotFoundException ex){ // TODO: Use interfaces
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        } catch(EmployeeInvalidFormatException ex){ // TODO: Use interfaces
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
 
