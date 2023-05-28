@@ -25,6 +25,11 @@ public class TaskController {
         return ResponseEntity.ok().body(taskService.getAll().stream().map(TaskDTO::fromEntity));
     }
 
+    @GetMapping("/employee/{employeeId}")
+    public ResponseEntity getEmployeeTasks(@PathVariable Long employeeId){
+        return ResponseEntity.ok().body(taskService.getEmployeeTasks(employeeId).stream().map(TaskDTO::fromEntity));
+    }
+
     @GetMapping("/set")
     public ResponseEntity addTaskToEmployee(@RequestParam(name="task_id") Long taskId,
                                             @RequestParam(name="employee_id") Long employeeId){

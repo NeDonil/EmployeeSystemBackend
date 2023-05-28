@@ -75,14 +75,21 @@ public class TaskService {
 
         var task = taskCandid.get();
         employeeCandid.get().getTasks().add(task);
+        employeeRepository.save(employeeCandid.get());
     }
 
     public List<Task> getAll(){
-        List<Task> tasks = new ArrayList<Task>();
-        Iterable<Task> result = taskRepository.findAll();
+        ArrayList<Task> result = new ArrayList<Task>();
+        Iterable<Task> tasks = taskRepository.findAll();
+        tasks.forEach(result::add);
+        return result;
+    }
 
-        result.forEach(tasks::add);
-        return tasks;
+    public List<Task> getEmployeeTasks(Long employeeId){
+        ArrayList<Task> result = new ArrayList<>();
+        Iterable<Task> tasks = taskRepository.findByEmployeeEmployeeId(employeeId);
+        tasks.forEach(result::add);
+        return result;
     }
 
     public Task update(Long id, TaskDTO taskDTO) throws TaskNotFoundException{
