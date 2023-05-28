@@ -25,19 +25,18 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity add(@RequestBody Task task){
+    public ResponseEntity add(@RequestBody TaskDTO taskDTO){
         try{
-            return ResponseEntity.ok().body(taskService.add(task));
+            return ResponseEntity.ok().body(TaskDTO.fromEntity(taskService.add(taskDTO)));
         } catch(TaskCannotCreateException ex){
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
-
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity update(@PathVariable Long id, @RequestBody Task task){
+    public ResponseEntity update(@PathVariable Long id, @RequestBody TaskDTO taskDTO){
         try{
-            return ResponseEntity.ok().body(taskService.update(id, task));
+            return ResponseEntity.ok().body(TaskDTO.fromEntity(taskService.update(id, taskDTO)));
         } catch(TaskNotFoundException ex){
             return ResponseEntity.badRequest().body(ex.getMessage());
         }

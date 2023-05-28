@@ -40,7 +40,7 @@ public class EmployeeController {
     public ResponseEntity add(@Valid @RequestBody Employee employee){
         try{
             Employee newEmployee = employeeService.add(employee);
-            return ResponseEntity.ok().body(newEmployee);
+            return ResponseEntity.ok().body(EmployeeDTO.fromEntity(newEmployee));
         } catch(EmployeeCannotCreateException ex){
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
@@ -50,7 +50,7 @@ public class EmployeeController {
     @PutMapping("/{id}")
     public ResponseEntity update(@PathVariable Long id, @RequestBody Employee employee){
         try{
-            return ResponseEntity.ok().body(employeeService.update(id, employee));
+            return ResponseEntity.ok().body(EmployeeDTO.fromEntity(employeeService.update(id, employee)));
         } catch(EmployeeNotFoundException ex){
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
