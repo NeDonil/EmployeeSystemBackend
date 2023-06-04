@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Data
-@Entity
 @NoArgsConstructor
 public class Event {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

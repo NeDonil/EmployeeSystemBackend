@@ -5,12 +5,19 @@ import com.vstu.employeesystembackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 @Component
 public class DataLoader implements ApplicationRunner {
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     private EmployeeRepository employeeRepository;
     private RoleRepository roleRepository;
@@ -188,9 +195,6 @@ public class DataLoader implements ApplicationRunner {
         v1.setEmployee(e1);
         v2.setEmployee(e2);
 
-        vacationRepository.save(v1);
-        vacationRepository.save(v2);
-
         Payment p1 = new Payment();
         p1.setName("Danil Salary");
         p1.setPaidAmount(30000);
@@ -218,6 +222,9 @@ public class DataLoader implements ApplicationRunner {
         employeeRepository.save(e4);
         employeeRepository.save(e5);
 
+        vacationRepository.save(v1);
+        vacationRepository.save(v2);
+
         taskRepository.save( new Task("Replace todos", e1) );
         taskRepository.save( new Task("Create todos", e2) );
         taskRepository.save( new Task("Find todos", e2) );
@@ -227,5 +234,18 @@ public class DataLoader implements ApplicationRunner {
 
         vacationRepository.save(v1);
         vacationRepository.save(v2);
+
+        try {
+            executeScript();
+        } catch(SQLException e){
+
+        }
+    }
+
+    void executeScript() throws SQLException {
+        String scriptPath = "init-database.sql";
+        ClassPathResource resource = new ClassPathResource(scriptPath);
+
+        ScriptUtils.executeSqlScript(jdbcTemplate.getDataSource().getConnection(), resource);
     }
 }
