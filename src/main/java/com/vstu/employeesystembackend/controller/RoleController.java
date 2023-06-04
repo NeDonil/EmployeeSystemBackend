@@ -7,7 +7,7 @@ import com.vstu.employeesystembackend.service.RoleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/roles")
+@RequestMapping("/api/v1/roles")
 @RestController
 public class RoleController {
 

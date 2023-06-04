@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RequestMapping("/employees")
+@RequestMapping("api/v1/employees")
 @RestController
 public class EmployeeController {
 
@@ -38,7 +38,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity add(@Valid @RequestBody Employee employee){
+    public ResponseEntity add(@RequestBody Employee employee){
         try{
             Employee newEmployee = employeeService.add(employee);
             return ResponseEntity.ok().body(EmployeeDTO.fromEntity(newEmployee));

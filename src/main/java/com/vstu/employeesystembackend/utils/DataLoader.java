@@ -1,13 +1,7 @@
 package com.vstu.employeesystembackend.utils;
 
-import com.vstu.employeesystembackend.entity.Authority;
-import com.vstu.employeesystembackend.entity.Employee;
-import com.vstu.employeesystembackend.entity.Role;
-import com.vstu.employeesystembackend.entity.Task;
-import com.vstu.employeesystembackend.repository.AuthorityRepository;
-import com.vstu.employeesystembackend.repository.EmployeeRepository;
-import com.vstu.employeesystembackend.repository.RoleRepository;
-import com.vstu.employeesystembackend.repository.TaskRepository;
+import com.vstu.employeesystembackend.entity.*;
+import com.vstu.employeesystembackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -21,6 +15,9 @@ public class DataLoader implements ApplicationRunner {
 
     private TaskRepository taskRepository;
     private AuthorityRepository authorityRepository;
+
+    private DocumentRepository documentRepository;
+
 
     @Autowired
     public void setEmployeeRepository(EmployeeRepository repository) {
@@ -40,6 +37,11 @@ public class DataLoader implements ApplicationRunner {
     @Autowired
     public void setAuthorityRepository(AuthorityRepository repository) {
         this.authorityRepository = repository;
+    }
+
+    @Autowired
+    public void setDocumentRepository(DocumentRepository repository) {
+        this.documentRepository = repository;
     }
 
     public void run(ApplicationArguments args) {
@@ -65,10 +67,14 @@ public class DataLoader implements ApplicationRunner {
         employeeRole.getAuthorities().add(ru);
         roleRepository.save(employeeRole);
 
+        var passport = documentRepository.save(new Document("Passport", "1234522f"));
+        documentRepository.save(passport);
+
         Employee e1 = new Employee();
         e1.setFirstname("Danil");
         e1.setLastname("Svinoukhov");
         e1.setUsername("NeDonil");
+        e1.setDocument(passport);
         e1.getRoles().add(adminRole);
 
         Employee e2 = new Employee();

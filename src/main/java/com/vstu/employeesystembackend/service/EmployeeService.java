@@ -1,10 +1,13 @@
 package com.vstu.employeesystembackend.service;
 
 import com.vstu.employeesystembackend.dto.EmployeeDTO;
+import com.vstu.employeesystembackend.entity.Document;
 import com.vstu.employeesystembackend.entity.Employee;
 import com.vstu.employeesystembackend.exceptions.EmployeeCannotCreateException;
 import com.vstu.employeesystembackend.exceptions.EmployeeInvalidFormatException;
 import com.vstu.employeesystembackend.exceptions.EmployeeNotFoundException;
+import com.vstu.employeesystembackend.repository.DepartmentRepository;
+import com.vstu.employeesystembackend.repository.DocumentRepository;
 import com.vstu.employeesystembackend.repository.EmployeeRepository;
 import com.vstu.employeesystembackend.repository.RoleRepository;
 import org.springframework.stereotype.Service;
@@ -17,9 +20,14 @@ public class EmployeeService {
     final private EmployeeRepository employeeRepository;
     final private RoleRepository roleRepository;
 
-    public EmployeeService(EmployeeRepository employeeRepository, RoleRepository roleRepository){
+    final private DocumentRepository documentRepository;
+
+    public EmployeeService(EmployeeRepository employeeRepository,
+                           RoleRepository roleRepository,
+                           DocumentRepository documentRepository){
         this.employeeRepository = employeeRepository;
         this.roleRepository = roleRepository;
+        this.documentRepository = documentRepository;
     }
 
     public Employee add(Employee employee) throws EmployeeCannotCreateException{
@@ -28,10 +36,9 @@ public class EmployeeService {
         if(employee.getUsername() == null ||
                 employee.getFirstname() == null ||
                 employee.getLastname() == null ||
-                employee.getPassword() == null ||
-                employee.getDocument() == null
+                employee.getPassword() == null
         ){
-            throw new EmployeeCannotCreateException("Employee must have username, firstname, lastname, pswd, fire date, document");
+            throw new EmployeeCannotCreateException("Employee must have username, firstname, lastname, pswd");
         }
 
         if(employee.getUsername() == "" ||
@@ -44,6 +51,9 @@ public class EmployeeService {
         if(employee.getFireDate() == null) {
             employee.setHireDate(java.time.LocalDate.now());
         }
+
+        Document tmpDocument = documentRepository.findById(1L).get();
+        employee.setDocument(tmpDocument);
 
         return employeeRepository.save(employee);
     }

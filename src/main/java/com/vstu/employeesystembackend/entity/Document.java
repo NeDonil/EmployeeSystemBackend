@@ -15,4 +15,9 @@ public class Document {
 
     private String documentName;
     private String documentCode;
+
+    public Document(String documentName, String documentCode){
+        this.documentName = documentName;
+        this.documentCode = documentCode;
+    }
 }

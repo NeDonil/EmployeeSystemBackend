@@ -10,7 +10,7 @@ import com.vstu.employeesystembackend.service.TaskService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/tasks")
+@RequestMapping("/api/v1/tasks")
 @RestController
 public class TaskController {
 
