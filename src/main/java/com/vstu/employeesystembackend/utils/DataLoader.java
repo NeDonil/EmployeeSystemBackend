@@ -67,6 +67,11 @@ public class DataLoader implements ApplicationRunner {
         var uu = authorityRepository.save(new Authority("UPDATE_USER"));
         var du = authorityRepository.save(new Authority("DELETE_USER"));
 
+        authorityRepository.save(cu);
+        authorityRepository.save(ru);
+        authorityRepository.save(uu);
+        authorityRepository.save(du);
+
         var adminRole = roleRepository.save(new Role("Admin"));
         adminRole.getAuthorities().add(cu);
         adminRole.getAuthorities().add(ru);
@@ -107,6 +112,12 @@ public class DataLoader implements ApplicationRunner {
 
         Rank worker = new Rank();
         worker.setName("Worker");
+
+        rankRepository.save(admin);
+        rankRepository.save(director);
+        rankRepository.save(assistant);
+        rankRepository.save(manager);
+        rankRepository.save(worker);
 
         rankRepository.save(admin);
         rankRepository.save(director);
@@ -177,6 +188,9 @@ public class DataLoader implements ApplicationRunner {
         v1.setEmployee(e1);
         v2.setEmployee(e2);
 
+        vacationRepository.save(v1);
+        vacationRepository.save(v2);
+
         Payment p1 = new Payment();
         p1.setName("Danil Salary");
         p1.setPaidAmount(30000);
@@ -192,6 +206,11 @@ public class DataLoader implements ApplicationRunner {
         Payment p4 = new Payment();
         p1.setName("Zuzev Salary");
         p1.setPaidAmount(500000);
+
+        paymentRepository.save(p1);
+        paymentRepository.save(p2);
+        paymentRepository.save(p3);
+        paymentRepository.save(p4);
 
         employeeRepository.save(e1);
         employeeRepository.save(e2);
