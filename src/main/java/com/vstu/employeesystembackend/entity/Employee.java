@@ -35,6 +35,14 @@ public class Employee {
     @JoinColumn(name = "document_id", referencedColumnName = "document_id")
     private Document document;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "payment_id", referencedColumnName = "payment_id")
+    private Payment payment;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rank_id", referencedColumnName = "rank_id")
+    private Rank rank;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="employees_roles",
     joinColumns = @JoinColumn(name = "employee_id"),
@@ -44,7 +52,6 @@ public class Employee {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id", referencedColumnName = "employee_id")
-
     private List<Task> tasks = new ArrayList();
 
     public Employee(String firstName, String lastName){

@@ -18,6 +18,8 @@ public class EmployeeDTO {
     private LocalDate hireDate;
     private LocalDate fireDate;
     private Long documentId;
+    private Long paymentId;
+    private Long rankId;
 
     public static EmployeeDTO fromEntity(Employee entity){
         EmployeeDTO tmp = new EmployeeDTO();
@@ -28,6 +30,7 @@ public class EmployeeDTO {
         tmp.setLastname(entity.getLastname());
         tmp.setHireDate(entity.getHireDate());
         tmp.setFireDate(entity.getFireDate());
+        tmp.setRankId(entity.getRank().getRankId());
 
         if(entity.getDocument() != null) {
             tmp.setDocumentId(entity.getDocument().getDocumentId());

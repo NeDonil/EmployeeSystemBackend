@@ -4,4 +4,5 @@ import com.vstu.employeesystembackend.entity.Rank;
 import org.springframework.data.repository.CrudRepository;
 
 public interface RankRepository extends CrudRepository<Rank, Long> {
+    Rank findByName(String name);
 }

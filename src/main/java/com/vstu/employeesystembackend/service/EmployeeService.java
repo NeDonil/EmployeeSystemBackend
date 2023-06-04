@@ -3,13 +3,11 @@ package com.vstu.employeesystembackend.service;
 import com.vstu.employeesystembackend.dto.EmployeeDTO;
 import com.vstu.employeesystembackend.entity.Document;
 import com.vstu.employeesystembackend.entity.Employee;
+import com.vstu.employeesystembackend.entity.Rank;
 import com.vstu.employeesystembackend.exceptions.EmployeeCannotCreateException;
 import com.vstu.employeesystembackend.exceptions.EmployeeInvalidFormatException;
 import com.vstu.employeesystembackend.exceptions.EmployeeNotFoundException;
-import com.vstu.employeesystembackend.repository.DepartmentRepository;
-import com.vstu.employeesystembackend.repository.DocumentRepository;
-import com.vstu.employeesystembackend.repository.EmployeeRepository;
-import com.vstu.employeesystembackend.repository.RoleRepository;
+import com.vstu.employeesystembackend.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,13 +19,16 @@ public class EmployeeService {
     final private RoleRepository roleRepository;
 
     final private DocumentRepository documentRepository;
+    final private RankRepository rankRepository;
 
     public EmployeeService(EmployeeRepository employeeRepository,
                            RoleRepository roleRepository,
-                           DocumentRepository documentRepository){
+                           DocumentRepository documentRepository,
+                           RankRepository rankRepository){
         this.employeeRepository = employeeRepository;
         this.roleRepository = roleRepository;
         this.documentRepository = documentRepository;
+        this.rankRepository = rankRepository;
     }
 
     public Employee add(Employee employee) throws EmployeeCannotCreateException{
@@ -54,6 +55,9 @@ public class EmployeeService {
 
         Document tmpDocument = documentRepository.findById(1L).get();
         employee.setDocument(tmpDocument);
+
+        Rank workerRank = rankRepository.findByName("Worker");
+        employee.setRank(workerRank);
 
         return employeeRepository.save(employee);
     }

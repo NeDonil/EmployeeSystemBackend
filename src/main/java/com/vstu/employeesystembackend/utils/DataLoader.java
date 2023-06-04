@@ -7,17 +7,19 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 public class DataLoader implements ApplicationRunner {
 
     private EmployeeRepository employeeRepository;
     private RoleRepository roleRepository;
-
     private TaskRepository taskRepository;
     private AuthorityRepository authorityRepository;
-
     private DocumentRepository documentRepository;
-
+    private VacationRepository vacationRepository;
+    private PaymentRepository paymentRepository;
+    private RankRepository rankRepository;
 
     @Autowired
     public void setEmployeeRepository(EmployeeRepository repository) {
@@ -44,6 +46,21 @@ public class DataLoader implements ApplicationRunner {
         this.documentRepository = repository;
     }
 
+    @Autowired
+    public void setVacationRepository(VacationRepository repository) {
+        this.vacationRepository = repository;
+    }
+
+    @Autowired
+    public void setPaymentRepository(PaymentRepository repository) {
+        this.paymentRepository = repository;
+    }
+
+    @Autowired
+    public void setRankRepository(RankRepository repository) {
+        this.rankRepository = repository;
+    }
+
     public void run(ApplicationArguments args) {
         var cu = authorityRepository.save(new Authority("CREATE_USER"));
         var ru = authorityRepository.save(new Authority("READ_USER"));
@@ -67,38 +84,120 @@ public class DataLoader implements ApplicationRunner {
         employeeRole.getAuthorities().add(ru);
         roleRepository.save(employeeRole);
 
-        var passport = documentRepository.save(new Document("Passport", "1234522f"));
+        var passport = documentRepository.save(new Document("Passport", "2018122374"));
         documentRepository.save(passport);
+
+        var snils = documentRepository.save(new Document("SNILS", "82653719752"));
+        documentRepository.save(snils);
+
+        var medicalBook = documentRepository.save(new Document("Medical book", "73855262"));
+        documentRepository.save(medicalBook);
+
+        Rank admin = new Rank();
+        admin.setName("Admin");
+
+        Rank director = new Rank();
+        director.setName("Director");
+
+        Rank assistant = new Rank();
+        assistant.setName("Assistant");
+
+        Rank manager = new Rank();
+        manager.setName("Manager");
+
+        Rank worker = new Rank();
+        worker.setName("Worker");
+
+        rankRepository.save(admin);
+        rankRepository.save(director);
+        rankRepository.save(assistant);
+        rankRepository.save(manager);
+        rankRepository.save(worker);
 
         Employee e1 = new Employee();
         e1.setFirstname("Danil");
         e1.setLastname("Svinoukhov");
-        e1.setUsername("NeDonil");
+        e1.setUsername("Danil");
+        e1.setPassword("234");
+        e1.setHireDate(LocalDate.now());
         e1.setDocument(passport);
         e1.getRoles().add(adminRole);
+        e1.setRank(worker);
+        e1.setDocument(passport);
 
         Employee e2 = new Employee();
         e2.setFirstname("Ilya");
         e2.setLastname("Ignatenko");
-        e2.setUsername("igntnk");
+        e2.setUsername("Ilya");
+        e2.setPassword("123");
+        e2.setHireDate(LocalDate.now());
+        e1.setDocument(passport);
         e2.getRoles().add(adminRole);
+        e2.setRank(admin);
 
         Employee e3 = new Employee();
         e3.setFirstname("Andrew");
         e3.setLastname("Abramov");
         e3.setUsername("Xblunt");
+        e3.setPassword("567");
+        e3.setHireDate(LocalDate.now());
+        e3.setDocument(passport);
         e3.getRoles().add(managerRole);
+        e3.setRank(worker);
 
         Employee e4 = new Employee();
         e4.setFirstname("Danil");
         e4.setLastname("Kabirov");
-        e4.setLastname("Kabup");
+        e4.setUsername("Kabup");
+        e4.setPassword("345");
+        e4.setHireDate(LocalDate.now());
+        e4.setDocument(passport);
         e4.getRoles().add(employeeRole);
+        e4.setRank(admin);
+        e4.setDocument(snils);
+
+        Employee e5 = new Employee();
+        e5.setFirstname("Kirill");
+        e5.setLastname("Bezuglyi");
+        e5.setUsername("Kirill");
+        e5.setPassword("678");
+        e5.setDocument(passport);
+        e5.setHireDate(LocalDate.now());
+        e5.getRoles().add(employeeRole);
+        e5.setRank(admin);
+
+        Vacation v1 = new Vacation();
+        v1.setBeginDate(LocalDate.of(2021, 12, 22));
+        v1.setEndDate(LocalDate.of(2022, 01, 22));
+
+        Vacation v2 = new Vacation();
+        v2.setBeginDate(LocalDate.of(2023, 5, 12));
+        v2.setEndDate(LocalDate.of(2023, 5, 30));
+
+        v1.setEmployee(e1);
+        v2.setEmployee(e2);
+
+        Payment p1 = new Payment();
+        p1.setName("Danil Salary");
+        p1.setPaidAmount(30000);
+
+        Payment p2 = new Payment();
+        p1.setName("Ilya Salary");
+        p1.setPaidAmount(40000);
+
+        Payment p3 = new Payment();
+        p1.setName("Andrey Salary");
+        p1.setPaidAmount(280000);
+
+        Payment p4 = new Payment();
+        p1.setName("Zuzev Salary");
+        p1.setPaidAmount(500000);
 
         employeeRepository.save(e1);
         employeeRepository.save(e2);
         employeeRepository.save(e3);
         employeeRepository.save(e4);
+        employeeRepository.save(e5);
 
         taskRepository.save( new Task("Replace todos", e1) );
         taskRepository.save( new Task("Create todos", e2) );
@@ -106,5 +205,8 @@ public class DataLoader implements ApplicationRunner {
         taskRepository.save( new Task("Delete todos", e3) );
         taskRepository.save( new Task("Fuck todos", e4) );
         taskRepository.save( new Task("Love todos", e1) );
+
+        vacationRepository.save(v1);
+        vacationRepository.save(v2);
     }
 }
