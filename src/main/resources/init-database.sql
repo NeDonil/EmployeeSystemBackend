@@ -4,28 +4,33 @@ create table event(
     event_id SERIAL PRIMARY KEY,
     event_date date,
     name varchar(255),
-    employee_id bigint references employee(employee_id)
+    employee_id bigint
 );
 
-create or replace function onEmployeeDelete()
-    returns trigger as $$
-begin
-    insert into event(name, event_date, employee_id) VALUES ('delete', now(), old.employee_id);
-end; $$
-    language plpgsql;
+CREATE OR REPLACE FUNCTION on_employee_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO event (event_date, name, employee_id)
+    VALUES (CURRENT_DATE, 'delete', OLD.employee_id);
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
 
+CREATE TRIGGER employee_delete_trigger
+AFTER DELETE ON employee
+FOR EACH ROW
+EXECUTE FUNCTION on_employee_delete();
 
-create trigger beforeEmployeeDelete
-    before delete on public.employee
-    for each row execute function onEmployeeDelete();
+CREATE OR REPLACE FUNCTION on_employee_insert()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO event (event_date, name, employee_id)
+    VALUES (CURRENT_DATE, 'insert', NEW.employee_id);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
 
-create or replace function onEmployeeCreate()
-    returns trigger as $$
-begin
-    insert into event(name, event_date, employee_id) VALUES ('create', now(), old.employee_id)
-end; $$
-    language plpgsql;
-
-create trigger beforeEmployeeCreate
-    before insert on public.employee
-    for each row execute function onEmployeeCreate();
+CREATE TRIGGER employee_insert_trigger
+AFTER INSERT ON employee
+FOR EACH ROW
+EXECUTE FUNCTION on_employee_insert();
